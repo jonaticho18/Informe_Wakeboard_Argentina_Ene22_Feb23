@@ -1,1 +1,519 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Wakeboard Argentina | Informe Enero a Febrero 2026</title>
+  <style>
+    :root{
+      --bg:#0b1020;
+      --panel:#121a33;
+      --panel2:#0f1730;
+      --text:#e9eeff;
+      --muted:#a9b4d6;
+      --accent:#7bdcff;
+      --good:#65ffb3;
+      --warn:#ffcc66;
+      --bad:#ff6b8a;
+      --line:rgba(255,255,255,.10);
+      --chip:rgba(123,220,255,.12);
+      --shadow:0 18px 50px rgba(0,0,0,.40);
+      --radius:18px;
+      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      --sans: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family:var(--sans);
+      background: radial-gradient(1200px 700px at 15% 0%, rgba(123,220,255,.18), transparent 55%),
+                  radial-gradient(900px 650px at 95% 15%, rgba(101,255,179,.12), transparent 50%),
+                  linear-gradient(180deg, var(--bg), #070a14 70%);
+      color:var(--text);
+    }
+    a{color:var(--accent); text-decoration:none}
+    .wrap{max-width:1150px; margin:0 auto; padding:28px 18px 64px}
+    header{
+      padding:18px 18px 16px;
+      border:1px solid var(--line);
+      background:linear-gradient(180deg, rgba(18,26,51,.85), rgba(15,23,48,.70));
+      box-shadow:var(--shadow);
+      border-radius:var(--radius);
+      position:sticky; top:12px; z-index:10;
+      backdrop-filter: blur(10px);
+    }
+    .top{
+      display:flex; gap:16px; align-items:flex-start; justify-content:space-between; flex-wrap:wrap;
+    }
+    .brand h1{margin:0; font-size:20px; letter-spacing:.2px}
+    .brand p{margin:6px 0 0; color:var(--muted); line-height:1.35}
+    .meta{
+      display:flex; gap:10px; flex-wrap:wrap; justify-content:flex-end
+    }
+    .chip{
+      padding:8px 10px;
+      border:1px solid var(--line);
+      background:var(--chip);
+      border-radius:999px;
+      color:var(--text);
+      font-size:12.5px;
+      white-space:nowrap;
+    }
+    nav{margin-top:14px; display:flex; gap:10px; flex-wrap:wrap}
+    .tab{
+      border:1px solid var(--line);
+      background:rgba(255,255,255,.04);
+      color:var(--text);
+      padding:9px 12px;
+      border-radius:12px;
+      cursor:pointer;
+      font-size:13px;
+      transition:.15s ease;
+    }
+    .tab[aria-selected="true"]{
+      background:rgba(123,220,255,.14);
+      border-color:rgba(123,220,255,.35);
+    }
+    .grid{
+      margin-top:18px;
+      display:grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap:14px;
+    }
+    .card{
+      grid-column: span 12;
+      border:1px solid var(--line);
+      background:linear-gradient(180deg, rgba(18,26,51,.70), rgba(15,23,48,.55));
+      border-radius:var(--radius);
+      box-shadow:var(--shadow);
+      padding:16px 16px 14px;
+    }
+    .card h2{margin:0 0 10px; font-size:15.5px; letter-spacing:.2px}
+    .card p{margin:0; color:var(--muted); line-height:1.45}
+    .kpis{
+      display:grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap:12px;
+      margin-top:12px;
+    }
+    .kpi{
+      grid-column: span 12;
+      border:1px solid var(--line);
+      border-radius:16px;
+      padding:12px 12px 10px;
+      background:rgba(255,255,255,.035);
+    }
+    .kpi .label{color:var(--muted); font-size:12.5px}
+    .kpi .value{font-size:20px; margin-top:6px}
+    .kpi .note{color:var(--muted); font-size:12.5px; margin-top:6px; line-height:1.35}
+    .row{
+      display:flex; gap:12px; flex-wrap:wrap; margin-top:12px
+    }
+    .col{
+      flex:1 1 320px;
+      border:1px solid var(--line);
+      border-radius:16px;
+      padding:12px;
+      background:rgba(255,255,255,.03);
+    }
+    table{width:100%; border-collapse:collapse; margin-top:10px}
+    th, td{border-bottom:1px solid rgba(255,255,255,.08); padding:10px 8px; text-align:left; font-size:13px}
+    th{color:var(--muted); font-weight:600}
+    td.num{font-family:var(--mono); text-align:right}
+    .muted{color:var(--muted)}
+    .small{font-size:12.5px}
+    .ok{color:var(--good)}
+    .warn{color:var(--warn)}
+    .bad{color:var(--bad)}
+    details{
+      border:1px solid var(--line);
+      background:rgba(255,255,255,.025);
+      border-radius:16px;
+      padding:10px 12px;
+      margin-top:10px;
+    }
+    details summary{cursor:pointer; color:var(--text); font-weight:600}
+    .section{display:none}
+    .section.active{display:block}
+    .footer{
+      margin-top:18px;
+      color:var(--muted);
+      font-size:12.5px;
+      line-height:1.5;
+    }
+    @media (min-width: 860px){
+      .kpi{grid-column: span 4}
+      .span6{grid-column: span 6}
+      .span7{grid-column: span 7}
+      .span5{grid-column: span 5}
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div class="top">
+        <div class="brand">
+          <h1>Wakeboard Argentina | Informe Enero a Febrero 2026</h1>
+          <p>Te dejo el cierre del periodo 22 de enero al 23 de febrero. En Ads me enfoco en gasto, alcance y clics, y para resultados de negocio uso los ingresos en Analytics, así lo miramos con una sola vara.</p>
+        </div>
+        <div class="meta">
+          <div class="chip">Periodo: 2026 01 22 a 2026 02 23</div>
+          <div class="chip">Moneda: ARS</div>
+          <div class="chip">Fuentes: Google Ads, GA4</div>
+        </div>
+      </div>
+      <nav role="tablist" aria-label="Secciones del informe">
+        <button class="tab" role="tab" aria-selected="true" data-target="resumen">Resumen</button>
+        <button class="tab" role="tab" aria-selected="false" data-target="ads">Google Ads</button>
+        <button class="tab" role="tab" aria-selected="false" data-target="ga4">Analytics e ingresos</button>
+        <button class="tab" role="tab" aria-selected="false" data-target="audiencia">Audiencia y horarios</button>
+      </nav>
+    </header>
+
+    <section id="resumen" class="section active">
+      <div class="grid">
+        <div class="card">
+          <h2>Lo más importante del periodo</h2>
+          <p>En este tramo la inversión en Ads fue de <span class="ok"><b>ARS 453,681.01</b></span> y generó 2,454 clics entre desktop y mobile, con mobile como el motor principal en volumen. Desde Analytics, el total de ingresos del ecommerce fue ARS 124,643,330.98 y el canal de campaña paga, Paid Search, explicó ARS 45,359,523.00.</p>
+
+          <div class="kpis">
+            <div class="kpi">
+              <div class="label">Gasto publicitario</div>
+              <div class="value">ARS 453,681.01</div>
+              <div class="note">Suma de costo por dispositivo en Google Ads.</div>
+            </div>
+            <div class="kpi">
+              <div class="label">Clics</div>
+              <div class="value">2,454</div>
+              <div class="note">Desktop 573, mobile 1,865, tablets 16.</div>
+            </div>
+            <div class="kpi">
+              <div class="label">Ingresos totales ecommerce</div>
+              <div class="value">ARS 124,643,330.98</div>
+              <div class="note">GA4 por grupo de canales del usuario.</div>
+            </div>
+            <div class="kpi">
+              <div class="label">Ingresos Paid Search</div>
+              <div class="value">ARS 45,359,523.00</div>
+              <div class="note">Este es el ingreso que tomo para ROAS.</div>
+            </div>
+            <div class="kpi">
+              <div class="label">ROAS Paid Search</div>
+              <div class="value">100.0</div>
+              <div class="note">ROAS = Ingresos Paid Search / Gasto Ads.</div>
+            </div>
+            <div class="kpi">
+              <div class="label">Transacciones Paid Search</div>
+              <div class="value">10</div>
+              <div class="note">GA4 reporta 10 transacciones en Paid Search.</div>
+            </div>
+          </div>
+
+          <details>
+            <summary>Nota rápida para alinear Ads y Analytics</summary>
+            <p class="muted small">En Ads pueden aparecer conversiones que no calzan perfecto con GA4 por atribución, ventanas, modelos y diferencias de medición. Para este informe lo importante es el gasto, el volumen y el ingreso atribuido en GA4, que es lo que usamos para el ROAS y para comparar canales.</p>
+          </details>
+        </div>
+
+        <div class="card span6">
+          <h2>Ingresos por canal en GA4</h2>
+          <p class="muted">Así quedó el mix de ingresos del periodo, con foco en Paid Search y en lo que trae el resto del ecosistema.</p>
+          <table>
+            <thead>
+              <tr>
+                <th>Canal</th>
+                <th class="num">Ingresos</th>
+                <th class="num">Transacciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>Organic Search</td><td class="num">ARS 34,594,283.99</td><td class="num">9</td></tr>
+              <tr><td>Paid Search</td><td class="num">ARS 45,359,523.00</td><td class="num">10</td></tr>
+              <tr><td>Direct</td><td class="num">ARS 44,535,523.99</td><td class="num">9</td></tr>
+              <tr><td>Otros canales</td><td class="num">ARS 154,000.00</td><td class="num">0</td></tr>
+            </tbody>
+          </table>
+          <p class="muted small">Otros canales incluye Organic Social, Display, Referral, Unassigned, Cross network, Organic Shopping y Organic Video.</p>
+        </div>
+
+        <div class="card span6">
+          <h2>Lectura rápida</h2>
+          <div class="row">
+            <div class="col">
+              <p><b>Paid Search</b> es el canal de campaña paga que estamos empujando, y cerró con ARS 45,359,523.00 en ingresos atribuidos en GA4, con 10 transacciones.</p>
+            </div>
+            <div class="col">
+              <p>Direct y Organic Search se mantienen súper fuertes, juntos suman ARS 79,129,807.98, señal de marca y demanda ya instalada.</p>
+            </div>
+          </div>
+          <details>
+            <summary>Cómo calculé el ROAS</summary>
+            <p class="muted small">Tomo gasto desde Google Ads y los ingresos de Paid Search desde GA4. ROAS del periodo: 45,359,523.00 / 453,681.01 = 100.0.</p>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <section id="ads" class="section">
+      <div class="grid">
+        <div class="card">
+          <h2>Google Ads | Inversión, clics y foco por dispositivo</h2>
+          <p>Acá lo importante es entender cuánto invertimos, dónde se consumió y cómo se repartió el volumen. Lo dejo simple para que se vea rápido y accionable.</p>
+
+          <div class="kpis">
+            <div class="kpi">
+              <div class="label">Costo total</div>
+              <div class="value">ARS 453,681.01</div>
+              <div class="note">Desktop ARS 162,426.88, mobile ARS 288,094.53, tablets ARS 3,159.60.</div>
+            </div>
+            <div class="kpi">
+              <div class="label">Clics totales</div>
+              <div class="value">2,454</div>
+              <div class="note">Mobile explica 76.0 por ciento de los clics.</div>
+            </div>
+            <div class="kpi">
+              <div class="label">Costo promedio por clic</div>
+              <div class="value">ARS 184.9</div>
+              <div class="note">Estimado con costo total dividido clics totales.</div>
+            </div>
+          </div>
+
+          <table>
+            <thead>
+              <tr>
+                <th>Dispositivo</th>
+                <th class="num">Costo</th>
+                <th class="num">Clics</th>
+                <th class="num">Conversiones</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>Computadoras</td><td class="num">ARS 162,426.88</td><td class="num">573</td><td class="num">6.82</td></tr>
+              <tr><td>Dispositivos móviles</td><td class="num">ARS 288,094.53</td><td class="num">1,865</td><td class="num">12.18</td></tr>
+              <tr><td>Tablets</td><td class="num">ARS 3,159.60</td><td class="num">16</td><td class="num">0.00</td></tr>
+              <tr><td>Pantallas de TV</td><td class="num">ARS 0.00</td><td class="num">0</td><td class="num">0.00</td></tr>
+            </tbody>
+          </table>
+
+          <details>
+            <summary>Lo que me llevo de dispositivos</summary>
+            <p class="muted small">Mobile es el caballo de batalla por volumen y gasto. Desktop sigue aportando una parte importante del costo, así que me gusta mantenerlo fino en términos de términos de búsqueda y páginas de destino, porque es el tráfico que suele venir con intención más clara de compra.</p>
+          </details>
+        </div>
+
+        <div class="card span6">
+          <h2>Qué se buscó | Términos principales</h2>
+          <p class="muted">Estos son los términos con más gasto del periodo, buen termómetro de intención y de cómo te están encontrando.</p>
+          <table>
+            <thead>
+              <tr>
+                <th>Buscar</th>
+                <th class="num">Costo</th>
+                <th class="num">Clics</th>
+                <th class="num">Impresiones</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>wakeboard</td><td class="num">ARS 16,286.06</td><td class="num">60</td><td class="num">1,781</td></tr>
+              <tr><td>wakeboard argentina</td><td class="num">ARS 15,425.26</td><td class="num">166</td><td class="num">5,350</td></tr>
+              <tr><td>tabla de wakeboard</td><td class="num">ARS 5,613.70</td><td class="num">44</td><td class="num">2,760</td></tr>
+              <tr><td>tabla wakeboard</td><td class="num">ARS 4,327.01</td><td class="num">36</td><td class="num">2,110</td></tr>
+              <tr><td>loopboardshop</td><td class="num">ARS 4,733.03</td><td class="num">15</td><td class="num">109</td></tr>
+              <tr><td>botas wakeboard</td><td class="num">ARS 4,282.00</td><td class="num">15</td><td class="num">570</td></tr>
+            </tbody>
+          </table>
+          <p class="muted small">Si querés, en la próxima iteración lo separo por intención, producto, marcas y competencia para que el cliente lo entienda todavía más rápido.</p>
+        </div>
+
+        <div class="card span6">
+          <h2>Palabras base | Dónde se concentra el gasto</h2>
+          <p class="muted">Acá se ve la foto por palabra contenida en la búsqueda, ayuda a entender temáticas dominantes.</p>
+          <table>
+            <thead>
+              <tr>
+                <th>Palabra</th>
+                <th class="num">Costo</th>
+                <th class="num">Clics</th>
+                <th class="num">Impresiones</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>wakeboard</td><td class="num">ARS 72,793.27</td><td class="num">480</td><td class="num">4,258</td></tr>
+              <tr><td>tabla</td><td class="num">ARS 15,233.26</td><td class="num">119</td><td class="num">934</td></tr>
+              <tr><td>de</td><td class="num">ARS 20,087.57</td><td class="num">129</td><td class="num">832</td></tr>
+              <tr><td>liquid force</td><td class="num">ARS 7,765.19</td><td class="num">49</td><td class="num">310</td></tr>
+              <tr><td>ronix</td><td class="num">ARS 2,997.95</td><td class="num">16</td><td class="num">210</td></tr>
+              <tr><td>obrien</td><td class="num">ARS 3,216.84</td><td class="num">21</td><td class="num">460</td></tr>
+            </tbody>
+          </table>
+          <details>
+            <summary>Acciones que propongo para el próximo corte</summary>
+            <p class="muted small">Me gusta empujar fuerte lo de intención de compra, ejemplo comprar, shop, online, y ordenar bien marcas como Ronix, OBrien y Liquid Force. También revisaría términos tipo competencia o tiendas cuando aparezcan, para decidir si se acompaña o se filtra con negativas según lo que convenga.</p>
+          </details>
+        </div>
+
+        <div class="card">
+          <h2>Ubicaciones y CTR</h2>
+          <p class="muted">En los archivos que me pasaste no veo el reporte de ubicaciones ni un desglose de impresiones y CTR por campaña o ubicación. Si me compartís ese CSV de Google Ads, lo sumo acá con un mapa simple o una tabla top 10, y lo dejamos bien completo.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="ga4" class="section">
+      <div class="grid">
+        <div class="card">
+          <h2>GA4 | Ingresos, transacciones y lectura de canales</h2>
+          <p>Para performance de negocio uso ingresos por canal desde GA4. En este periodo el total fue ARS 124,643,330.98, con Paid Search, Direct y Organic Search como los tres pilares.</p>
+
+          <div class="kpis">
+            <div class="kpi">
+              <div class="label">Ingresos totales</div>
+              <div class="value">ARS 124,643,330.98</div>
+              <div class="note">Suma de canales reportados en el corte.</div>
+            </div>
+            <div class="kpi">
+              <div class="label">Ingresos Paid Search</div>
+              <div class="value">ARS 45,359,523.00</div>
+              <div class="note">Canal de campaña paga, lo uso para ROAS.</div>
+            </div>
+            <div class="kpi">
+              <div class="label">Ingresos Direct</div>
+              <div class="value">ARS 44,535,523.99</div>
+              <div class="note">Demanda de marca, recurrentes y gente que vuelve.</div>
+            </div>
+          </div>
+
+          <details>
+            <summary>Detalle de ingresos por canal</summary>
+            <table>
+              <thead>
+                <tr>
+                  <th>Canal</th>
+                  <th class="num">Usuarios nuevos</th>
+                  <th class="num">Ingresos</th>
+                  <th class="num">Transacciones</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td>Paid Search</td><td class="num">128</td><td class="num">ARS 45,359,523.00</td><td class="num">10</td></tr>
+                <tr><td>Organic Search</td><td class="num">973</td><td class="num">ARS 34,594,283.99</td><td class="num">9</td></tr>
+                <tr><td>Direct</td><td class="num">931</td><td class="num">ARS 44,535,523.99</td><td class="num">9</td></tr>
+                <tr><td>Organic Social</td><td class="num">46</td><td class="num">ARS 10,000.00</td><td class="num">0</td></tr>
+                <tr><td>Display</td><td class="num">53</td><td class="num">ARS 0.00</td><td class="num">0</td></tr>
+                <tr><td>Referral</td><td class="num">44</td><td class="num">ARS 0.00</td><td class="num">0</td></tr>
+                <tr><td>Unassigned</td><td class="num">13</td><td class="num">ARS 0.00</td><td class="num">0</td></tr>
+                <tr><td>Cross-network</td><td class="num">9</td><td class="num">ARS 0.00</td><td class="num">0</td></tr>
+                <tr><td>Organic Shopping</td><td class="num">1</td><td class="num">ARS 0.00</td><td class="num">0</td></tr>
+                <tr><td>Organic Video</td><td class="num">1</td><td class="num">ARS 0.00</td><td class="num">0</td></tr>
+              </tbody>
+            </table>
+          </details>
+
+          <details>
+            <summary>Lectura de valor medio a 120 días</summary>
+            <p class="muted small">En Paid Search el valor medio a 120 días figura en ARS 174.08, en Organic Search ARS 721.77 y en Direct ARS 783.59. Es una métrica interesante para entender calidad por cohorte, aunque para el cliente normalmente la dejo como dato secundario.</p>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <section id="audiencia" class="section">
+      <div class="grid">
+        <div class="card span6">
+          <h2>Audiencia | Género</h2>
+          <p class="muted">Distribución de impresiones con datos conocidos.</p>
+          <table>
+            <thead>
+              <tr>
+                <th>Género</th>
+                <th class="num">Impresiones</th>
+                <th class="num">Porcentaje</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>Hombre</td><td class="num">20,007</td><td class="num">69.29%</td></tr>
+              <tr><td>Mujer</td><td class="num">9,086</td><td class="num">31.47%</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="card span6">
+          <h2>Audiencia | Edad</h2>
+          <p class="muted">Los segmentos más fuertes están entre 25 a 54.</p>
+          <table>
+            <thead>
+              <tr>
+                <th>Rango</th>
+                <th class="num">Impresiones</th>
+                <th class="num">Porcentaje</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>18 a 24</td><td class="num">2,297</td><td class="num">7.95%</td></tr>
+              <tr><td>25 a 34</td><td class="num">8,217</td><td class="num">28.46%</td></tr>
+              <tr><td>35 a 44</td><td class="num">7,717</td><td class="num">26.72%</td></tr>
+              <tr><td>45 a 54</td><td class="num">7,121</td><td class="num">24.66%</td></tr>
+              <tr><td>55 a 64</td><td class="num">2,464</td><td class="num">8.53%</td></tr>
+              <tr><td>65 o más</td><td class="num">1,109</td><td class="num">3.84%</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="card">
+          <h2>Horarios | Cuándo se concentran las impresiones</h2>
+          <p class="muted">En general el pico está entre 10 a.m. y 7 p.m., con muy buena tracción de mediodía y tarde.</p>
+          <table>
+            <thead>
+              <tr>
+                <th>Hora</th>
+                <th class="num">Impresiones</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>10 a.m.</td><td class="num">2,218</td></tr>
+              <tr><td>11 a.m.</td><td class="num">2,395</td></tr>
+              <tr><td>12 p.m.</td><td class="num">2,559</td></tr>
+              <tr><td>1 p.m.</td><td class="num">2,606</td></tr>
+              <tr><td>2 p.m.</td><td class="num">2,565</td></tr>
+              <tr><td>3 p.m.</td><td class="num">2,496</td></tr>
+              <tr><td>4 p.m.</td><td class="num">2,521</td></tr>
+              <tr><td>5 p.m.</td><td class="num">2,556</td></tr>
+              <tr><td>6 p.m.</td><td class="num">2,527</td></tr>
+              <tr><td>7 p.m.</td><td class="num">2,329</td></tr>
+            </tbody>
+          </table>
+
+          <details>
+            <summary>Idea simple para optimización</summary>
+            <p class="muted small">Si queremos probar algo sin romper nada, podemos testear ajustes de puja o presupuesto en el bloque de 10 a.m. a 7 p.m. y comparar contra el resto del día. Después lo bajamos a performance con ingresos por hora cuando tengamos ese reporte, así no nos quedamos solo con impresiones.</p>
+          </details>
+        </div>
+
+        <div class="card">
+          <h2>Notas finales y próximos pasos</h2>
+          <p>Para el siguiente corte te propongo dos mejoras que quedan muy prolijas para el cliente. Primero, sumar ubicaciones de Google Ads y un top de provincias o ciudades con métricas claras. Segundo, cruzar esto con landing pages o productos más vistos en GA4 para que se entienda qué está comprando la gente que llega por Paid Search.</p>
+          <p class="footer">Checklist que me falta para dejarlo redondo, export de ubicaciones en Google Ads con impresiones, clics, CTR, costo, y si se puede conversiones aunque sea como referencia. Con eso lo cierro completo sin meter ruido.</p>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <script>
+    const tabs = [...document.querySelectorAll(".tab")];
+    const sections = [...document.querySelectorAll(".section")];
+
+    function setActive(id){
+      sections.forEach(s => s.classList.toggle("active", s.id === id));
+      tabs.forEach(t => t.setAttribute("aria-selected", t.dataset.target === id ? "true" : "false"));
+      history.replaceState(null, "", "#" + id);
+    }
+
+    tabs.forEach(t => t.addEventListener("click", () => setActive(t.dataset.target)));
+
+    const hash = (location.hash || "").replace("#","");
+    if(hash && document.getElementById(hash)) setActive(hash);
+  </script>
+</body>
+</html>
 
